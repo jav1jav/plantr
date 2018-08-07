@@ -3,6 +3,12 @@ const db = new Sequelize('postgres://localhost:5432/plantr', {
   logging: false,
 });
 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+}
+
 const Gardener = db.define('gardener', {
   name: {
     type: Sequelize.STRING,
@@ -19,6 +25,11 @@ const Plot = db.define('plot', {
   shaded: {
     type: Sequelize.BOOLEAN,
   },
+});
+
+Plot.beforeCreate((plot) => {
+  // console.log(plot)
+  plot.gardenerId = 6;
 });
 
 const Vegetable = db.define('vegetable', {
